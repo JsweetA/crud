@@ -11,12 +11,6 @@ export const route = [
     },
     children: [
       {
-        path: 'card',
-        name: 'card',
-        component: () => import('@/pages/list/card/base/index.vue'),
-        meta: { title: 'card', cachePage: true, arcoIcon: 'IconSkin', },
-      },
-      {
         path: 'table',
         // 与组件名对应才能缓存
         name: 'search_table',
