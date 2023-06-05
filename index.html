@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script>
+      this.globalThis || (this.globalThis = this);
+      if (typeof (window).global === 'undefined') {
+        (window).global = window
+      }
+    </script>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="/Cesium/Cesium.js"></script>
+    <script language="javascript" src="https://webapi.amap.com/maps?v=2.0&key=b9c9a1be2df67d809c6f0ba6d439ca35&plugin=AMap.MouseTool"></script>
+    <script src="http://api.tianditu.gov.cn/cdn/plugins/cesium/cesiumTdt.js" ></script>
+    <link rel="stylesheet" href="/Cesium/Widgets/widgets.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.142/build/three.js"></script>
+    <title><%= title %></title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,7 @@
+public
+node_modules
+.history
+.husky
+dist
+src/testTool/*
+src/build/*

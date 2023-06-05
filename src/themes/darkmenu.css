@@ -1,0 +1,64 @@
+body {
+  --color-menu-dark-text: 0,0,0;
+  --color-menu-bg:  255, 255, 255;
+}
+
+body[arco-theme='dark'] {
+  --color-menu-dark-text: 255, 255, 255;
+  --color-menu-bg:  35,35,36;
+}
+
+body[arco-theme='darkmenu'] .arco-menu-light .arco-menu-item:hover,
+body[arco-theme='darkmenu'] .arco-menu-light .arco-menu-group-title:hover,
+body[arco-theme='darkmenu'] .arco-menu-light .arco-menu-pop-header:hover,
+body[arco-theme='darkmenu'] .arco-menu-light .arco-menu-inline-header:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: rgb(var(--primary-6));
+}
+
+body[arco-theme='darkmenu'] .arco-menu-light .arco-menu-item:hover .arco-icon,
+body[arco-theme='darkmenu'] .arco-menu-light .arco-menu-group-title:hover .arco-icon,
+body[arco-theme='darkmenu'] .arco-menu-light .arco-menu-pop-header:hover .arco-icon,
+body[arco-theme='darkmenu'] .arco-menu-light .arco-menu-inline-header:hover .arco-icon,
+body[arco-theme='darkmenu'] .arco-menu-light .arco-menu-item:hover .arco-menu-icon,
+body[arco-theme='darkmenu'] .arco-menu-light .arco-menu-group-title:hover .arco-menu-icon,
+body[arco-theme='darkmenu'] .arco-menu-light .arco-menu-pop-header:hover .arco-menu-icon,
+body[arco-theme='darkmenu'] .arco-menu-light .arco-menu-inline-header:hover .arco-menu-icon {
+  color: rgb(var(--primary-6));
+}
+
+body[arco-theme='darkmenu'] .arco-menu-light .arco-menu-item.arco-menu-selected {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: rgb(var(--primary-6));
+}
+
+body[arco-theme='darkmenu'] .arco-menu-light .arco-menu-inline-header.arco-menu-selected {
+  color: rgb(var(--primary-6));
+}
+
+body[arco-theme='darkmenu'] .arco-menu-light .arco-menu-item,
+body[arco-theme='darkmenu'] .arco-menu-light .arco-menu-group-title,
+body[arco-theme='darkmenu'] .arco-menu-light .arco-menu-pop-header,
+body[arco-theme='darkmenu'] .arco-menu-light .arco-menu-inline-header {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+body[arco-theme='darkmenu'] .arco-menu-light .arco-menu-item,
+body[arco-theme='darkmenu'] .arco-menu-light .arco-menu-group-title,
+body[arco-theme='darkmenu'] .arco-menu-light .arco-menu-pop-header,
+body[arco-theme='darkmenu'] .arco-menu-light .arco-menu-inline-header {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+body[arco-theme='darkmenu'] .arco-menu-light .arco-menu-inline-header.arco-menu-selected:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+body[arco-theme='darkmenu'] {
+  --color-menu-dark-text: 255, 255, 255;
+  --color-menu-bg:  0,23,41;
+  --color-menu-dark-bg: #001729;
+  --color-menu-light-bg: #001524;
+  --color-menu-dark-hover: rgba(255, 255, 255, 0.08);
+  --color-mask-bg: rgba(23, 23, 26, 0.6);
+}
