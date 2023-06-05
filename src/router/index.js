@@ -29,6 +29,7 @@ export const constantRoutes = [
       },
     ],
   },
+  
   {
     path: '/404',
     component: () => import('@/pages/error-page/404.vue'),

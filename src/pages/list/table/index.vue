@@ -8,13 +8,6 @@
           <a-space>
             <Operate type="primary" icon="IconPlus" :text="$t('searchTable.operations.create')"
               @opt="() => operate('create', '创建', false)" />
-            <Operate :text="$t('searchTable.operations.import')" @opt="() => operate('import', '导入', false)" />
-          </a-space>
-        </a-col>
-        <a-col :span="8" style="text-align: right">
-          <a-space>
-            <Operate icon="IconDownload" :text="$t('searchTable.operations.download')"
-              @opt="() => operate('download', '下载', false)" />
           </a-space>
         </a-col>
       </a-row>
@@ -68,7 +61,7 @@
   import { Notification, } from '@arco-design/web-vue';
   import { queryPolicyList, } from '@/services/mock/list';
 
-  const { initConfig, fieldList, title, } = config;
+  const { fieldList, title, } = config;
 
   const { loading, setLoading } = useLoading(true);
   const renderData = ref([]);
@@ -84,6 +77,7 @@
     setLoading(true);
     try {
       const { data } = await queryPolicyList(params);
+      console.log(data);
       renderData.value = data.list;
       setPage({
         current: params.current,

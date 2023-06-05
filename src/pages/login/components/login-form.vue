@@ -1,25 +1,16 @@
 <template>
   <div class="login-form-wrapper">
-    <div class="login-form-title">{{ $t('login.form.title') }}</div>
-    <div class="login-form-sub-title">{{ $t('login.form.title') }}</div>
-    <div class="login-form-error-msg">{{ errorMessage }}</div>
-    <a-form
-      ref="loginForm"
-      :model="userInfo"
-      class="login-form"
-      layout="vertical"
-      @submit="handleSubmit"
-    >
+    <div class="login-form-title">人员管理系统</div>
+    <div class="login-form-sub-title">登录人员管理系统</div>
+    <br />
+    <a-form ref="loginForm" :model="userInfo" class="login-form" layout="vertical" @submit="handleSubmit">
       <a-form-item
         field="username"
         :rules="[{ required: true, message: $t('login.form.userName.errMsg') }]"
         :validate-trigger="['change', 'blur']"
         hide-label
       >
-        <a-input
-          v-model="userInfo.username"
-          :placeholder="$t('login.form.userName.placeholder')"
-        >
+        <a-input v-model="userInfo.username" :placeholder="$t('login.form.userName.placeholder')">
           <template #prefix>
             <icon-user />
           </template>
@@ -31,11 +22,7 @@
         :validate-trigger="['change', 'blur']"
         hide-label
       >
-        <a-input-password
-          v-model="userInfo.password"
-          :placeholder="$t('login.form.password.placeholder')"
-          allow-clear
-        >
+        <a-input-password v-model="userInfo.password" :placeholder="$t('login.form.password.placeholder')" allow-clear>
           <template #prefix>
             <icon-lock />
           </template>
@@ -46,16 +33,15 @@
           <a-checkbox
             checked="rememberPassword"
             :model-value="loginConfig.rememberPassword"
-            @change="(setRememberPassword)"
+            @change="setRememberPassword"
           >
             {{ $t('login.form.rememberPassword') }}
           </a-checkbox>
-          <a-link>{{ $t('login.form.forgetPassword') }}</a-link>
         </div>
         <a-button type="primary" html-type="submit" long :loading="loading">
           {{ $t('login.form.login') }}
         </a-button>
-        <a-button type="text" long class="login-form-register-btn">
+        <a-button type="text" @click="register" long class="login-form-register-btn">
           {{ $t('login.form.register') }}
         </a-button>
       </a-space>
@@ -64,97 +50,105 @@
 </template>
 
 <script setup>
-  import { ref, reactive } from 'vue';
-  import { useRouter } from 'vue-router';
-  import { Message } from '@arco-design/web-vue';
-  import { useI18n } from 'vue-i18n';
-  import { useStorage } from '@vueuse/core';
-  import { useUserStore } from '@/store/user/index';
-  import useLoading from '@/hooks/loading';
+import { ref, reactive } from 'vue';
+import { useRouter } from 'vue-router';
+import { Message } from '@arco-design/web-vue';
+import { useI18n } from 'vue-i18n';
+import { useStorage } from '@vueuse/core';
+import { useUserStore } from '@/store/user/index';
+import useLoading from '@/hooks/loading';
 
-  const router = useRouter();
-  const { t } = useI18n();
-  const errorMessage = ref('');
-  const { loading, setLoading } = useLoading();
-  const loginStore = useUserStore();
+const router = useRouter();
+const { t } = useI18n();
+const errorMessage = ref('');
+const { loading, setLoading } = useLoading();
+const loginStore = useUserStore();
 
-  const loginConfig = useStorage('login-config', {
-    rememberPassword: true,
-    username: 'admin', // 演示默认值
-    password: 'admin', // demo default value
+const loginConfig = useStorage('login-config', {
+  rememberPassword: true,
+  username: 'admin', // 演示默认值
+  password: 'admin', // demo default value
+});
+const userInfo = reactive({
+  username: loginConfig.value.username,
+  password: loginConfig.value.password,
+});
+const register = () => {
+  router.push({
+    name:'register'
   });
-  const userInfo = reactive({
-    username: loginConfig.value.username,
-    password: loginConfig.value.password,
-  });
+}
+const handleSubmit = async ({ errors, values }) => {
+  if (loading.value) return;
+  if (!errors) {
+    setLoading(true);
+    try {
+      await loginStore.login(values);
+      const { redirect, ...othersQuery } = router.currentRoute.value.query;
+      
+      router.push({
+        name: 'search_table',
+      });
 
-  const handleSubmit = async ({
-    errors,
-    values,
-  }) => {
-    if (loading.value) return;
-    if (!errors) {
-      setLoading(true);
-      try {
-        await loginStore.login(values);
-        const { redirect, ...othersQuery } = router.currentRoute.value.query;
-        router.push({
-          name: (redirect) || 'Dashboard',
-          query: {
-            ...othersQuery,
-          },
-        });
-        Message.success(t('login.form.login.success'));
-        const { rememberPassword } = loginConfig.value;
-        const { username, password } = values;
-        // 实际生产环境需要进行加密存储。
-        // The actual production environment requires encrypted storage.
-        loginConfig.value.username = rememberPassword ? username : '';
-        loginConfig.value.password = rememberPassword ? password : '';
-      } catch (err) {
-        errorMessage.value = (err).message;
-      } finally {
-        setLoading(false);
-      }
+      Message.success(t('login.form.login.success'));
+      const { rememberPassword } = loginConfig.value;
+      const { username, password } = values;
+      // 实际生产环境需要进行加密存储。
+      // The actual production environment requires encrypted storage.
+      loginConfig.value.username = rememberPassword ? username : '';
+      loginConfig.value.password = rememberPassword ? password : '';
+    } catch (err) {
+      errorMessage.value = err.message;
+    } finally {
+      setLoading(false);
     }
-  };
-  const setRememberPassword = (value) => {
-    loginConfig.value.rememberPassword = value;
-  };
+  }
+};
+const setRememberPassword = (value) => {
+  loginConfig.value.rememberPassword = value;
+};
 </script>
 
 <style lang="scss" scoped>
-  .login-form {
-    &-wrapper {
-      width: 320px;
-    }
-
-    &-title {
-      color: var(--color-text-1);
-      font-weight: 500;
-      font-size: 24px;
-      line-height: 32px;
-    }
-
-    &-sub-title {
-      color: var(--color-text-3);
-      font-size: 16px;
-      line-height: 24px;
-    }
-
-    &-error-msg {
-      height: 32px;
-      color: rgb(var(--red-6));
-      line-height: 32px;
-    }
-
-    &-password-actions {
-      display: flex;
-      justify-content: space-between;
-    }
-
-    &-register-btn {
-      color: var(--color-text-3) !important;
-    }
+.login-form {
+  &-wrapper {
+    width: 400px;
+    padding: 30px;
+    padding-left: 40px;
+    padding-right: 40px;
+    background-color: #fff;
+    border-radius: 20px;
+    box-shadow: 1.8px 2.8px 2.2px rgba(0, 0, 0, 0.005), 4.3px 6.7px 5.3px rgba(0, 0, 0, 0.005),
+      8.1px 12.5px 10px rgba(0, 0, 0, 0.007), 14.5px 22.3px 17.9px rgba(0, 0, 0, 0.013),
+      27.2px 41.8px 33.4px rgba(0, 0, 0, 0.031), 65px 100px 80px rgba(0, 0, 0, 0.11);
   }
+
+  &-title {
+    color: var(--color-text-1);
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 32px;
+  }
+
+  &-sub-title {
+    color: var(--color-text-3);
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  &-error-msg {
+    height: 32px;
+    color: rgb(var(--red-6));
+    line-height: 32px;
+  }
+
+  &-password-actions {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &-register-btn {
+    color: var(--color-text-3) !important;
+  }
+}
 </style>
