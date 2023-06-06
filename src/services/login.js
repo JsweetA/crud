@@ -1,8 +1,17 @@
 import request from "@/api/request";
 
-export const login = async (params = {}) => {
+export const register = async (params = {}) => {
     const res = await request({
-        url:'',
+        url:'/login/register',
+        method:'POST',
+        params
+    });
+    return res;
+};
+
+export const Login = async (params = {}) => {
+    const res = await request({
+        url:'/login',
         method:'POST',
         params
     });

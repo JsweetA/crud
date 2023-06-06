@@ -22,10 +22,9 @@ export default defineComponent({
       if (res?.type === 'avatar') {
         return (
           <a-space>
-            <a-avatar size={16} shape="square">
+            <a-avatar size={60} shape="square">
               <img alt="avatar" src={res?.src} />
             </a-avatar>
-            {res?.text}
           </a-space>
         );
       }

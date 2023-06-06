@@ -22,12 +22,6 @@ const props = defineProps({
   },
 });
 
-watch(
-  () => props.collapsed,
-  () => {
-    console.log(2, props.collapsed);
-  }
-);
 
 const appStore = useAppStore();
 const settings = computed(() => appStore.settings);

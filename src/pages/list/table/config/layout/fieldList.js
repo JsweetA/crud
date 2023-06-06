@@ -3,6 +3,7 @@
  */
 
 import i18n from '@/locale';
+import { sexOptions, } from './options';
 
 const t = i18n?.global?.t;
 
@@ -13,71 +14,50 @@ const t = i18n?.global?.t;
  */
 export const fields = [
   {
-    field: 'number', // 字段value
-    label: t('searchTable.form.number'), // 字段对应的中文
+    field: 'serialNum', // 字段value
+    label: '编号', // 字段对应的中文
+    unedit:true,
+    unadd:true
   },
   {
     field: 'name',
-    label: t('searchTable.form.name'),
+    label: '姓名',
   },
   {
-    field: 'contentType',
-    label: t('searchTable.form.contentType'),
+    field: 'sex',
+    label: '性别',
+    type:'select',
+    options:sexOptions
+  },
+  
+  {
+    field: 'age',
+    label: '年龄',
+  },
+  {
+    field: 'department',
+    label: '部门',
+    type:'select',
+  },
+  {
+    field: 'mailbox',
+    label: '邮箱',
+  },  
+  {
+    field: 'avatar',
+    label: '头像',
+    type:'file',
+    unadd:true,
     resolve: (record) => { // 返回一个图片+文字
       let src;
-      if (record.contentType === 'img')
-        src='//p3-armor.byteimg.com/tos-cn-i-49unhts6dw/581b17753093199839f2e327e726b157.svg~tplv-49unhts6dw-image.image';
-      else if (record.contentType === 'horizontalVideo')
-        src='//p3-armor.byteimg.com/tos-cn-i-49unhts6dw/77721e365eb2ab786c889682cbc721c1.svg~tplv-49unhts6dw-image.image';
-      else
-        src='//p3-armor.byteimg.com/tos-cn-i-49unhts6dw/ea8b09190046da0ea7e070d83c5d1731.svg~tplv-49unhts6dw-image.image';
+      console.log(record,'头像');
+      src = record.url;
       return {
         type: 'avatar',
         src,
-        text: t(`searchTable.form.contentType.${record.contentType}`),
       };
     },
   },
-  {
-    field: 'filterType',
-    label: t('searchTable.form.filterType'),
-    resolve: (record) => { // 返回的text需要临时计算，例如原text为video，需要翻译成视频
-      return {
-        type: 'text',
-        text: t(`searchTable.form.filterType.${record.filterType}`),
-      };
-    },
-  },
-  {
-    field: 'count',
-    label: t('searchTable.form.count'),
-  },
-  {
-    field: 'createdTime',
-    label: t('searchTable.form.createdTime'),
-  },
-  {
-    field: 'status',
-    label: t('searchTable.form.status'),
-    resolve: (record) => { // 返回图标和文字结合
-      let src = '';
-      let style = '';
-      if (record.status === 'offline') {
-        src = 'IconCloseCircle';
-        style = 'color: #ff5d63';
-      }
-      else {
-        src = 'IconCheckCircle';
-        style = 'color: #00c055';
-      }
-      return {
-        type: 'icon',
-        style,
-        src,
-        text: t(`searchTable.form.status.${record.status}`),
-      };
-    },
-  }
 ];
 
 export default fields;

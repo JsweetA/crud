@@ -93,7 +93,7 @@ watch(
 
 const baseUrl = getBaseUrl();
 
-console.log(2, baseUrl, apiHost);
+// console.log(2, baseUrl, apiHost);
 
 const api = reactive({
   host: baseUrl,

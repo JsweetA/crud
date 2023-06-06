@@ -5,8 +5,8 @@ const pageStore = {};
 const factory = (key) => {
   if (!pageStore[key]) {
     pageStore[key] = reactive({
-      current: 1,
-      pageSize: 20,
+      current: 0,
+      pageSize: 6,
       total: 0,
     });
   }

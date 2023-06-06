@@ -4,13 +4,13 @@
       <a-form
         :model="formModel"
         :label-col-props="{ span: 6 }"
-        :wrapper-col-props="{ span: 18 }"
+        :wrapper-col-props="{ span: 16 }"
         label-align="left"
       >
         <a-row :gutter="16">
           <template v-for="(item) in filterList" :key="item.field">
             <a-col :span="8">
-              <a-form-item
+              <a-form-item  
                 :field="item.field"
                 :label="item.label"
               >
@@ -26,7 +26,7 @@
                   :options="item.component.options"
                   :placeholder="item.component.placeholder"
                 />
-
+                
                 <a-range-picker
                   v-if="item.component.type === 'rangePicker'"
                   v-model="formModel[item.field]"
@@ -38,8 +38,8 @@
         </a-row>
       </a-form>
     </a-col>
-    <a-divider style="height: 84px" direction="vertical" />
-    <a-col :flex="'86px'" style="text-align: right">
+    <a-divider style="height: 30px" direction="vertical" />
+    <a-col :flex="'95px'" style="text-align: left">
       <a-space direction="vertical" :size="18">
         <a-button type="primary" @click="search">
           <template #icon>
@@ -47,12 +47,17 @@
           </template>
           {{ '查询' }}
         </a-button>
+      </a-space>
+    </a-col>
+    <a-col :flex="'86px'" style="text-align: right">
+      <a-space direction="vertical" :size="18">
         <a-button @click="reset">
           <template #icon> 
             <icon-refresh />
           </template>
           {{ '重置' }}
         </a-button>
+        
       </a-space>
     </a-col>
   </a-row>
