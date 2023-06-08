@@ -102,6 +102,7 @@ const formModel = ref(generateFormModel());
 const search = () => {
   fetchData({
     ...pagination,
+    current:0,
     ...formModel.value,
   });
 };

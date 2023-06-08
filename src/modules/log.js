@@ -29,7 +29,7 @@ export default async (app) => {
 
   app.config.errorHandler = async (err, instance, info) => {
     // 向追踪服务报告错误
-    console.log('error', err, instance, info,);
+    // console.log('error', err, instance, info,);
     await store.insertData({
       type: 'error',
       content: err?.message,
@@ -42,7 +42,7 @@ export default async (app) => {
   app.config.warnHandler = async (msg, instance, trace) => {
     // `trace` is the component hierarchy trace
     // 向追踪服务报告错误
-    console.log('warn', msg, instance, trace);
+    // console.log('warn', msg, instance, trace);
     await store.insertData({
       type: 'warn',
       content: msg,

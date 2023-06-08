@@ -4,6 +4,7 @@ import _ from 'lodash';
 import { queryDepartmentOptions,queryData, addPerson,deletePerson, updatePerson } from '../../services/table';
 import { getBaseUrl } from '@/api/apiConfig';
 import usePage from '@/hooks/usePage.js';
+import { uploadRef } from '../../pages/list/table/components/upload';
 
 const {page, setPage} = usePage('table');
 const url = getBaseUrl();
@@ -18,7 +19,6 @@ export const useTableStore = defineStore('table', {
     options:{
         department:null
     },
-    page,
   }),
   actions: {
     async init(){
@@ -29,27 +29,32 @@ export const useTableStore = defineStore('table', {
         setLoading(true);
         try {
             const res = await queryData(params);
-            const department = await queryDepartmentOptions();
-            if(!this.options.department) this.options.department = department.data.map(i => {
-                return {
-                    label:i?.name,
-                    value:i?.name
-                };
-            });
+            if (!this.options.department) {
+                const department = await queryDepartmentOptions();
+                this.options.department = department.data.map(i => {
+                    return {
+                        label:i?.name,
+                        value:i?.name
+                    };
+                });
+            }
             this.renderData = res?.data?.content;
             for(let i = 0; i < this.renderData.length; i ++){
                 this.renderData[i].url = `${url}${this.renderData[i]?.attach.url}`;
-                this.renderData[i].upUrl = `${url}/${this.renderData[i].id}/upload`;
+                this.renderData[i].upUrl = `${url}/employee/${this.renderData[i].id}/upload`;
                 this.renderData[i].sex = this.renderData[i].sex === 'male' ? '男':'女';
                 this.renderData[i].department = this.renderData[i].departmentOutput.name;
             }
+            console.log(this.renderData,"renderData");
             setPage({
+                ...params,
                 current:params.current + 1 || 1,
                 pageSize:res?.data?.pageSize,
                 total:res?.data?.totalElements
             });
         } catch (err) {
         // you can report use errorHandler or other
+            console.log(err,1231);
         } finally {
             setLoading(false);
         }
@@ -62,6 +67,7 @@ export const useTableStore = defineStore('table', {
     },
     async modify (params) {
         const res = await updatePerson(params);
+        await uploadRef.value.submit();
     },
     async getDepartments(){
         const res = await queryDepartmentOptions();

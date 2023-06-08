@@ -17,31 +17,63 @@ export const fields = [
     field: 'serialNum', // 字段value
     label: '编号', // 字段对应的中文
     unedit:true,
-    unadd:true
+    unadd:true,
   },
   {
     field: 'name',
     label: '姓名',
+    required:true,
+    message:'请输入姓名',
+    validate:(v) => {
+      if(v ===undefined || v === '') return false;
+      return true;
+    }
   },
   {
     field: 'sex',
     label: '性别',
     type:'select',
-    options:sexOptions
+    options:sexOptions,
+    required:true,
+    message:'请选择性别',
+    validate:(v) => {
+      if(v ===undefined || v === '') return false;
+      return true;
+    }
   },
   
   {
     field: 'age',
     label: '年龄',
+    type:'number',
+    required:true,
+    message:'请输入合法年龄',
+    validate:(v) => {
+      if(v >= 0 && v <= 200) return true;
+      return false;
+    }
   },
   {
     field: 'department',
     label: '部门',
     type:'select',
+    required:true,
+    message:'请选择部门',
+    validate:(v) => {
+      if(v === undefined || v === '') return false;
+      return true;
+    }
   },
   {
     field: 'mailbox',
     label: '邮箱',
+    ruleType:'email',
+    required:true,
+    message:'请输入合法邮箱',
+    validate:(v) => {
+      let t = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
+      return t.test(v);
+    }
   },  
   {
     field: 'avatar',
@@ -50,8 +82,9 @@ export const fields = [
     unadd:true,
     resolve: (record) => { // 返回一个图片+文字
       let src;
-      console.log(record,'头像');
+      
       src = record.url;
+
       return {
         type: 'avatar',
         src,

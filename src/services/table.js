@@ -21,11 +21,15 @@ export const deleteDepartment = async (params = {}) => {
 
 // 分页获取表单
 export const queryData = async (params = {}) => {
-    console.log("queryData",params);
+    let data = {};
+    for(let key of  Object.keys(params)){
+        if(params[key].length) data[key] = params[key];
+    }
+    console.log(data);
     const res = await request({
         url:`/employee/query?page=${params?.current}&size=${params?.pageSize || 6}`,
         method:'POST',
-        params:params?.data || {}
+        params:data
     });
     return res;
 };

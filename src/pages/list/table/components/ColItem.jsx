@@ -18,12 +18,13 @@ export default defineComponent({
   setup(props, {emit}) {
     const { meta, info } = props;
     const res = meta.resolve(info);
+
     return () => {
       if (res?.type === 'avatar') {
         return (
           <a-space>
             <a-avatar size={60} shape="square">
-              <img alt="avatar" src={res?.src} />
+              <img alt="avatar" src={props?.info?.url} />
             </a-avatar>
           </a-space>
         );
@@ -45,4 +46,5 @@ export default defineComponent({
       }
     };
   },
+  
 });

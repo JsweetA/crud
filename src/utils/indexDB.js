@@ -19,17 +19,17 @@ export default class IndexDB {
       
       request.onsuccess = (event) => {
         this.db = event.target.result;
-        console.log('数据库打开成功');
+        // console.log('数据库打开成功');
         resolve(this.db);
       };
 
       request.onerror = (event) => {
-        console.log('数据库打开报错');
+        // console.log('数据库打开报错');
         reject(event);
       };
 
       request.onupgradeneeded = (event) => {
-        console.log('创建数据库');
+        // console.log('创建数据库');
         this.db = event.target.result;
         const objectStore = this.db.createObjectStore(this.config?.tableName, {
           keyPath: 'id',
@@ -45,19 +45,19 @@ export default class IndexDB {
   
   insertData(data) {
     return new Promise((resolve, reject) => {
-      console.log('insertData', this.db);
+      // console.log('insertData', this.db);
       const request = this.db
         .transaction([this.config?.tableName], 'readwrite')
         .objectStore(this.config?.tableName)
         .add(data);
   
       request.onsuccess = (event) => {
-        console.log('数据写入成功');
+        // console.log('数据写入成功');
         resolve('数据写入成功');
       };
   
       request.onerror = (event) => {
-        console.log('数据写入失败');
+        // console.log('数据写入失败');
         reject(new Error('数据写入失败'));
       };
     });
@@ -70,12 +70,12 @@ export default class IndexDB {
       const request = objectStore.get(key);
   
       request.onerror = (event) => {
-        console.log('事务失败');
+        // console.log('事务失败');
         reject(event);
       };
   
       request.onsuccess = (event) => {
-        console.log('主键查询结果: ', request.result);
+        // console.log('主键查询结果: ', request.result);
         resolve(request.result);
       };
     });
@@ -86,12 +86,12 @@ export default class IndexDB {
       const store = this.db.transaction(this.config?.tableName, 'readwrite').objectStore(this.config?.tableName);
       const request = store.index(indexName).getAll(indexValue);
       request.onerror = (event) => {
-        console.log('事务失败');
+        // console.log('事务失败');
         reject(event);
       };
       request.onsuccess = function (e) {
         const result = e.target.result;
-        console.log('索引查询结果：', result);
+        // console.log('索引查询结果：', result);
         resolve(request.result);
       };
     });

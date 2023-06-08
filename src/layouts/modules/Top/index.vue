@@ -18,9 +18,6 @@
           <SizeSelect />
         </li>
         <li>
-          <LangSelect />
-        </li>
-        <li>
           <Person />
         </li>
       </ul>

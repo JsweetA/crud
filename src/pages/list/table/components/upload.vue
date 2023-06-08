@@ -1,13 +1,16 @@
 <template>
     <a-space direction="vertical" :style="{ width: '100%' }">
+        {{ data }}
       <a-upload
-        action="/"
+        :action="url"
         ref="uploadRef"
         :auto-upload="false"
         :fileList="file ? [file] : []"
         :show-file-list="false"
         @change="onChange"
         @progress="onProgress"
+        :headers="headers"
+        :data="data"
       >
         <template #upload-button>
           <div
@@ -51,19 +54,36 @@
   
 <script setup>
   import { IconEdit, IconPlus } from '@arco-design/web-vue/es/icon';
-  import { ref,onMounted } from 'vue';
+  import { ref,onMounted,computed } from 'vue';
   import { uploadRef } from './upload';
+  import { getToken } from '@/utils/auth';
 
-  
   const file = ref();
+  const satoken = getToken();
+  const headers = ref({
+    satoken,
+  });
+  const data = computed(()=>{
+    return {
+        name:uploadRef?.value?.fileList[0]?.name,
+        category:'aaaa'
+    };
+  });
+  const props = defineProps({
+    url:null
+  });
+  
   const onChange = (_, currentFile) => {
     file.value = {
       ...currentFile,
       // url: URL.createObjectURL(currentFile.file),
     };
   };
+     
   const onProgress = (currentFile) => {
     file.value = currentFile;
   };
-  
+  onMounted(()=>{
+    console.log("openUpload");
+  });
   </script>
