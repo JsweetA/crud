@@ -17,3 +17,13 @@ export const Login = async (params = {}) => {
     });
     return res;
 };
+
+
+export const fetchSecurityCode = async (params = {}) => {
+    const res = await request({
+        url:'/email/code',
+        method:'POST',
+        params
+    });
+    return res;
+};

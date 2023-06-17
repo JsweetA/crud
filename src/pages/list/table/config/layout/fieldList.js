@@ -5,6 +5,8 @@
 import i18n from '@/locale';
 import { sexOptions, } from './options';
 
+
+let old = '';
 const t = i18n?.global?.t;
 
 /**
@@ -67,7 +69,6 @@ export const fields = [
   {
     field: 'mailbox',
     label: '邮箱',
-    ruleType:'email',
     required:true,
     message:'请输入合法邮箱',
     validate:(v) => {
@@ -82,9 +83,9 @@ export const fields = [
     unadd:true,
     resolve: (record) => { // 返回一个图片+文字
       let src;
-      
+      console.log(old,record.url,"111111111");
       src = record.url;
-
+      old = src;
       return {
         type: 'avatar',
         src,

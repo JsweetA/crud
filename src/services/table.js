@@ -3,7 +3,7 @@ import request from "@/api/request";
 // 获取部门选项
 export const queryDepartmentOptions = async (params = {}) => {
     const res = await request({
-        url:'/department',
+        url:'/department/query',
     });
 
     return res;
@@ -11,12 +11,21 @@ export const queryDepartmentOptions = async (params = {}) => {
 
 // 新增部门
 export const addDepartment = async (params = {}) => {
-
+    const res = await request ({
+        url:'/department',
+        method:'POST',
+        params
+    });
+    return res;
 };
 
 // 删除部门
 export const deleteDepartment = async (params = {}) => {
-
+    const res = await request ({
+        url:`/department/${params?.id}`,
+        method:'DELETE',
+    });
+    return res;
 };
 
 // 分页获取表单
@@ -27,7 +36,7 @@ export const queryData = async (params = {}) => {
     }
     console.log(data);
     const res = await request({
-        url:`/employee/query?page=${params?.current}&size=${params?.pageSize || 6}`,
+        url:`/employee/query?page=${params?.current || 0}&size=${params?.pageSize || 6}`,
         method:'POST',
         params:data
     });

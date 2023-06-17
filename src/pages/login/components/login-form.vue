@@ -47,44 +47,10 @@
       </a-space>
     </a-form>
   </div>
+  
+  
   <div v-if="current === 1" class="login-form-wrapper">
-    <div class="login-form-title">注册</div>
-    <div class="login-form-sub-title">管理员账号</div>
-    <br />
-    <a-form  :model="registerInfo" class="login-form" layout="vertical" >
-      <a-form-item
-        label="请输入用户名"
-        field="username"
-        :rules="[{ required: true, message: $t('login.form.userName.errMsg') }]"
-        :validate-trigger="['change', 'blur']"
-      >
-        <a-input v-model="registerInfo.username" placeholder="用户名：admin">
-          <template #prefix>
-            <icon-user />
-          </template>
-        </a-input>
-      </a-form-item>  
-      <a-form-item
-        label="请输入密码"
-        field="password"
-        :rules="[{ required: true, message: $t('login.form.password.errMsg') }]"
-        :validate-trigger="['change', 'blur']"  
-      >
-        <a-input-password v-model="registerInfo.password" allow-clear placeholder="密码：123456">
-          <template #prefix>
-            <icon-lock />
-          </template>
-        </a-input-password>
-      </a-form-item>
-      <a-space :size="16" direction="vertical">
-        <a-button type="primary" @click="handleRegister" html-type="submit" long :loading="loading">
-          确认注册
-        </a-button>
-        <a-button type="text" @click="()=>current = 0" long class="login-form-register-btn">
-          返回
-        </a-button>
-      </a-space>
-    </a-form>
+    <registerForm @confirm="registerOk"/>
   </div>
 </template>
 
@@ -96,6 +62,8 @@ import { Message } from '@arco-design/web-vue';
 import { useI18n } from 'vue-i18n';
 import { useUserStore } from '@/store/user/index';
 import useLoading from '@/hooks/loading';
+import registerForm from './register-form.vue';
+
 
 const router = useRouter();
 const { t } = useI18n();
@@ -104,25 +72,16 @@ const { loading, setLoading } = useLoading();
 const store = useUserStore();
 const current = ref(0);
 
-const registerInfo = reactive({
-  username:'',
-  password:''
-});
 
 const userInfo = reactive({
   username: '',
   password: '',
 });
 
-const handleRegister = async () => {
-    setLoading(true);
-    await register(registerInfo);
-    registerInfo.username = '';
-    registerInfo.password = '';
-    current.value = 0;
-    Message.success("注册成功!");
-    setLoading(false);
+const registerOk = () => {
+  current.value = 0;
 };
+
 const handleSubmit = async ({ errors, values }) => {
   if (loading.value) return;
   if (!errors) {

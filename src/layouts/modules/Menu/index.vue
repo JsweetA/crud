@@ -23,7 +23,9 @@ import { useAppStore } from '@/store/app/app';
 import { usePermissionStore } from '@/store/app/permission';
 import router from '@/router';
 import { useRoute } from 'vue-router';
-import { reactive } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
+import { getAuthority } from '@/utils/auth';
+import _ from 'lodash';
 
 const props = defineProps({
   mode: {
@@ -32,16 +34,12 @@ const props = defineProps({
     type: String,
   },
 });
-
+const authority = getAuthority();
 const appStore = useAppStore();
-
 const settings = computed(() => appStore.settings);
-
 const route = useRoute();
 const permissionStore = usePermissionStore();
-const routes = computed(() => {
-  return permissionStore.routes;
-});
+const routes = ref();
 const isCollapse = computed(() => appStore.sidebar.opened);
 const now = useRoute();
 const activeMenu = ref([now?.path]);
@@ -59,6 +57,19 @@ router.beforeEach((to, from, next) => {
 const toggleSideBar = () => {
   appStore.toggleSideBar();
 };
+
+onMounted(() => {
+  let r = _.cloneDeep(permissionStore.routes);
+  r = r.map((i) => {
+    if (i?.isPages) {
+      i.children = i.children.filter((e) => e.authority.includes(authority));
+    }
+    return i;
+  });
+  routes.value = {
+    ...r,
+  };
+});
 </script>
 
 <style lang="scss" scoped>

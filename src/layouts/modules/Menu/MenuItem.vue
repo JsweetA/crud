@@ -37,10 +37,12 @@
 import path from 'path-browserify';
 import Link from './Link.vue';
 import Item from './Item';
+import { getAuthority } from '@/utils/auth';
 import { isExternal } from '@/utils/validate';
 // i18n
 import useI18n from '@/hooks/useI18n';
 
+const authority = getAuthority();
 const props = defineProps({
   // 每一个router Item
   item: {
@@ -88,4 +90,6 @@ const resolvePath = (routePath) => {
   }
   return path.resolve(props.basePath, routePath);
 };
+
+
 </script>

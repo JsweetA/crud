@@ -70,7 +70,7 @@ const setting = {
   /*
    * 是否为正式版
    * */
-  isProduct: false,
+  isProduct: true,
   /**
    * 默认主题
    */  

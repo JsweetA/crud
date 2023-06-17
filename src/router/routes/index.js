@@ -1,5 +1,7 @@
 import rank from './rank.js';
+import { getAuthority } from '@/utils/auth';
 
+const authority = getAuthority();
 const modules = import.meta.globEager('./modules/*.js');
 
 function formatModules(_modules, result) {
@@ -9,7 +11,10 @@ function formatModules(_modules, result) {
     const moduleList = Array.isArray(defaultModule)
       ? [...defaultModule]
       : [defaultModule];
-    result.push(...moduleList);
+    
+    result = moduleList.map((e) => {
+      return e;
+    });
   });
   const res = [];
   rank.forEach(r => {

@@ -18,19 +18,18 @@ export default defineComponent({
   setup(props, {emit}) {
     const { meta, info } = props;
     const res = meta.resolve(info);
-
     return () => {
       if (res?.type === 'avatar') {
         return (
           <a-space>
             <a-avatar size={60} shape="square">
-              <img alt="avatar" src={props?.info?.url} />
+              <img alt="avatar" src={props.info.value.url} />
             </a-avatar>
           </a-space>
         );
       }
       if (res?.type === 'text') {
-        return (
+        return (  
           <a-space>
             {res?.text}
           </a-space>

@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { Login } from '@/services/login.js';
 import _ from 'lodash';
-import { setToken, removeToken } from '@/utils/auth';
+import { setToken, removeToken,setAuthority, removeAuthority } from '@/utils/auth';
 
 /**
  * @return {*}
@@ -15,7 +15,7 @@ export const useUserStore = defineStore('user', {
       avatar: '',
     },
     token: '',
-    roles: [],
+    roles: ''
   }),
   actions: {
     setPerson (info,) {
@@ -30,11 +30,14 @@ export const useUserStore = defineStore('user', {
       const res = await Login(params);
       this.setPerson(res?.data);
       setToken(res?.data?.token);
+      setAuthority(res?.data?.authority);
+
       return res?.code === 200;
     },
     async logout() {
       return new Promise((resolve, reject) => {
         removeToken();
+        removeAuthority();
         resolve(null);
       });
     },
